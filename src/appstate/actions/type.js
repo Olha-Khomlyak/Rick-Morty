@@ -1,0 +1,1 @@
+export const EPISODE_LIST = 'EPISODE_LIST'
