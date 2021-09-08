@@ -25,7 +25,11 @@ export default function Navigator() {
                         title: route.params.name,
                     })}
                 />
-                <Stack.Screen name="CharacterDetails" component={CharacterDetails} />
+                <Stack.Screen name="CharacterDetails" component={CharacterDetails} 
+                    options={({ route, navigation }) => ({
+                        title: route.params.name,
+                    })}
+                />
             </Stack.Navigator>
         </NavigationContainer>
     );

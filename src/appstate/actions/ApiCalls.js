@@ -14,9 +14,6 @@ export const getEpisodes = (page) => (dispatch) => {
             {
                 method: 'get',
                 url: 'https://rickandmortyapi.com/api/episode',
-                data: {
-                    page: page
-                }
             })
 
             .then((response) => {
@@ -29,6 +26,7 @@ export const getEpisodes = (page) => (dispatch) => {
                 resolve()
             })
             .catch((error) => {
+                reject()
                 alert(error)
             });
     })

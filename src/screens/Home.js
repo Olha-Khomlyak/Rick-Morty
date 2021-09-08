@@ -28,6 +28,7 @@ const Home = (props) => {
             },
             () => {
                 setError(true)
+                setLoading(false)
             })
     }
 
@@ -48,10 +49,10 @@ const Home = (props) => {
                         />
                         <View style={{flex:1}}>
                             <View style={{ flexDirection: 'row', alignItems:'center' }}> 
-                             <Text>Seson {parseInt(item.episode.split('S').pop().split('E')[0])} Episode {parseInt(item.episode.split('E').pop())}: </Text>
                             <Text style={{color:colors.GREEN, fontSize:17, flex:1, flexWrap:'wrap'}}>{item.name}</Text>
                             </View>
-                            <Text>{item.air_date}</Text>
+                             <Text style={{fontStyle:'italic'}}>Seson {parseInt(item.episode.split('S').pop().split('E')[0])} Episode {parseInt(item.episode.split('E').pop())}</Text>
+                            <Text>Released: {item.air_date}</Text>
                         </View>
                     </View>
 
@@ -61,7 +62,7 @@ const Home = (props) => {
     }
 
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={[styles.container,{borderWidth:4, borderColor:'red'}]}>
             {error ?
                 <View>
                     <Text>Ooops something went wrong</Text>
@@ -73,21 +74,19 @@ const Home = (props) => {
                             <ActivityIndicator size="large" color='grey' />
                         </View>
                         :
-                        <ScrollView style={{ flexGrow: 1 }} nestedScrollEnabled>
+                         <ScrollView style={{ flex:1}} nestedScrollEnabled={true}>
                             <Image
                                 source={require('../assets/images/rick-and-morty.png')}
                                 style={stylesLocal.imageStyle}
+                            />  
+                            <FlatList
+                                data={props.episodes}
+                                keyExtractor={item => item.id}
+                                renderItem={renderList}
+                                style={[stylesLocal.episodeList]}
                             />
-                            <View style={{}}>
-                                <FlatList
-                                    data={props.episodes}
-                                    keyExtractor={item => item.id}
-                                    renderItem={renderList}
-                                    style={stylesLocal.episodeList}
-                                    nestedScrollEnabled
-                                />
-                            </View>
-                        </ScrollView>}
+                        </ScrollView>
+                        }
                 </>
             }
 
@@ -116,7 +115,7 @@ const stylesLocal = StyleSheet.create({
     },
     episodeList: {
         marginVertical: 15,
-        height: HEIGHT - 100,
+        //height: HEIGHT - 100,
     },
     imageStyle: {
         width: '100%',

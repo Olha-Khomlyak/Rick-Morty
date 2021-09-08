@@ -8,10 +8,25 @@ const styles = StyleSheet.create({
     },
     cardStyle: {
         margin:5,
-        borderRadius:5,
+        borderRadius:0,
         borderColor:colors.BLUE, 
         padding:10,
-        justifyContent:'center'
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.27,
+        shadowRadius: 4.65,
+        elevation: 6,
+    },
+    rowView: {
+        justifyContent:'space-between',
+        flexDirection:'row'
+    },
+    title: {
+        fontWeight:'bold',
+        fontSize:17
     }
 })
 
