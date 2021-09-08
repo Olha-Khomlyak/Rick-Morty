@@ -1,9 +1,14 @@
 import {
-    EPISODE_LIST
+    EPISODE_LIST,
+    EPISODE_DETAILS,
+    CHARACTER_LIST,
+    CLEAN_CHARACTER_LIST
 } from '../actions/type';
 
 const initialState = {
-    episodeList: []
+    episodeList: [],
+    episodeDetails:[],
+    characterList: []
 }
 
 const ApiReducer = (state = initialState, action) => {
@@ -12,6 +17,21 @@ const ApiReducer = (state = initialState, action) => {
             return {
                 ...state,
                 episodeList: action.payload
+            }
+        case EPISODE_DETAILS:
+            return {
+                ...state,
+                episodeDetails: action.payload
+            }
+        case CHARACTER_LIST:
+            return {
+                ...state,
+                characterList: state.characterList.concat(action.payload)
+            }
+        case CLEAN_CHARACTER_LIST:
+            return {
+                ...state,
+                characterList: []
             }
         default:
             return state;

@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, Text, View, ActivityIndicator, FlatList } from 'react-native';
+import { SafeAreaView, Text, View, ActivityIndicator, FlatList, Pressable, Dimensions, ScrollView, StyleSheet } from 'react-native';
 import { getEpisodes } from '../appstate/actions/ApiCalls';
+import { setTempData } from '../appstate/actions/TempData';
 import { connect } from 'react-redux';
+import { styles } from '../constants/styles';
+import { Image, Card } from 'react-native-elements'
+import { colors } from '../constants';
+
+const HEIGHT = Dimensions.get('window').height
+const WIDTH = Dimensions.get('window').width
 
 const Home = (props) => {
 
@@ -24,17 +31,37 @@ const Home = (props) => {
             })
     }
 
-const renderList = ({item}) => {
-    return(
-        <View style={{borderWidth:1, margin:5}}>
-            <Text>{item.name}</Text>
-            <Text>{item.air_date}</Text>
-        </View>
-    )
-}
+    const goToEpisodeInfo = (uri, name) => {
+        props.setTempData(uri)
+        props.navigation.navigate('EpisodeInfo', {name : name})
+    }
+
+    const renderList = ({ item }) => {
+        return (
+            <Pressable
+                onPress={() => goToEpisodeInfo(item.url, item.name)}>
+                <Card containerStyle={styles.cardStyle}>
+                    <View style={{ flexDirection: 'row' }}>
+                        <Image
+                            source={require('../assets/images/controler.png')}
+                            style={{ width: 30, height: 30 , marginRight:10}}
+                        />
+                        <View style={{flex:1}}>
+                            <View style={{ flexDirection: 'row', alignItems:'center' }}> 
+                             <Text>Seson {parseInt(item.episode.split('S').pop().split('E')[0])} Episode {parseInt(item.episode.split('E').pop())}: </Text>
+                            <Text style={{color:colors.GREEN, fontSize:17, flex:1, flexWrap:'wrap'}}>{item.name}</Text>
+                            </View>
+                            <Text>{item.air_date}</Text>
+                        </View>
+                    </View>
+
+                </Card>
+            </Pressable>
+        )
+    }
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={styles.container}>
             {error ?
                 <View>
                     <Text>Ooops something went wrong</Text>
@@ -46,14 +73,21 @@ const renderList = ({item}) => {
                             <ActivityIndicator size="large" color='grey' />
                         </View>
                         :
-                        <View>
-                            <Text>HOME</Text>
-                            <FlatList 
-                            data={props.episodes}
-                            keyExtractor={item => item.id}
-                            renderItem={renderList}
+                        <ScrollView style={{ flexGrow: 1 }} nestedScrollEnabled>
+                            <Image
+                                source={require('../assets/images/rick-and-morty.png')}
+                                style={stylesLocal.imageStyle}
                             />
-                        </View>}
+                            <View style={{}}>
+                                <FlatList
+                                    data={props.episodes}
+                                    keyExtractor={item => item.id}
+                                    renderItem={renderList}
+                                    style={stylesLocal.episodeList}
+                                    nestedScrollEnabled
+                                />
+                            </View>
+                        </ScrollView>}
                 </>
             }
 
@@ -68,4 +102,25 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { getEpisodes })(Home);
+export default connect(mapStateToProps, { getEpisodes, setTempData })(Home);
+
+
+const stylesLocal = StyleSheet.create({
+    phrase: {
+        position: 'absolute',
+        bottom: 15,
+        left: 5,
+        color: colors.WHITE,
+        fontSize: 17,
+        fontWeight: 'bold'
+    },
+    episodeList: {
+        marginVertical: 15,
+        height: HEIGHT - 100,
+    },
+    imageStyle: {
+        width: '100%',
+        height: 200,
+        resizeMode: 'contain',
+    }
+})
