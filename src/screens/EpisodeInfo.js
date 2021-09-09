@@ -4,9 +4,8 @@ import { getEpisodeInfo } from '../appstate/actions/ApiCalls'
 import { setTempData } from '../appstate/actions/TempData'
 import { connect } from 'react-redux';
 import { styles } from '../constants/styles';
-import { Card, Image } from 'react-native-elements'
+import { Button, Card, Image } from 'react-native-elements'
 
-const HEIGHT = Dimensions.get('window').height
 const WIDTH = Dimensions.get('window').width
 
 const EpisodeInfo = (props) => {
@@ -51,16 +50,27 @@ const EpisodeInfo = (props) => {
         props.navigation.navigate('CharacterDetails', { name: name })
     }
 
+    const fetchAfterError = () =>{
+        setError(false)
+        setLoading(true)
+        getEpisodeDetails()
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             {error ?
                 <View>
-                    <Text>Ooops something went wrong</Text>
+                    <Text style={{textAlign:'center', marginTop:10}}>Ooops something went wrong</Text>
+                    <Button 
+                    title='Try again'
+                    onPress={fetchAfterError}
+                     buttonStyle={styles.errorBtn}
+                    />
                 </View>
                 :
                 <>
                     {loading ?
-                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                        <View style={styles.loadingViewStyle}>
                             <ActivityIndicator size="large" color='grey' />
                         </View>
                         :
@@ -105,12 +115,10 @@ const EpisodeInfo = (props) => {
 }
 
 function mapStateToProps(state) {
-    console.log(state);
     return {
         url: state.TempDataReducer.tempData,
         episodeDetails: state.ApiReducer.episodeDetails,
         characterList: state.ApiReducer.characterList,
-
     }
 }
 

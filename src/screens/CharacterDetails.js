@@ -1,12 +1,9 @@
 import React from 'react';
-import { SafeAreaView, Text, View, Dimensions } from 'react-native';
+import { SafeAreaView, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { styles } from '../constants/styles';
 import { Card, Image } from 'react-native-elements'
 import { colors } from '../constants';
-
-const HEIGHT = Dimensions.get('window').height
-const WIDTH = Dimensions.get('window').width
 
 const CharacterDetails = (props) => {
     return (
@@ -44,10 +41,8 @@ const CharacterDetails = (props) => {
 }
 
 function mapStateToProps(state) {
-    console.log(state);
     return {
         info: state.TempDataReducer.tempData,
-
     }
 }
 export default connect(mapStateToProps, null)(CharacterDetails);

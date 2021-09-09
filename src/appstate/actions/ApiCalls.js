@@ -27,7 +27,7 @@ export const getEpisodes = (page) => (dispatch) => {
             })
             .catch((error) => {
                 reject()
-                alert(error)
+                console.log(error)
             });
     })
 }

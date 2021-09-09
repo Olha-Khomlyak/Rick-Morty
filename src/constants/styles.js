@@ -27,6 +27,16 @@ const styles = StyleSheet.create({
     title: {
         fontWeight:'bold',
         fontSize:17
+    },
+    loadingViewStyle: {
+        flex: 1, 
+        justifyContent: 'center', 
+        alignItems: 'center'
+    },
+    errorBtn: {
+        width: 100, 
+        margin: 10, 
+        backgroundColor: colors.GREEN
     }
 })
 
