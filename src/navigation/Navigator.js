@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from '../screens/Home'
 import EpisodeInfo from '../screens/EpisodeInfo'
 import CharacterDetails from '../screens/CharacterDetails'
+import { colors } from '../constants';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,11 +24,17 @@ export default function Navigator() {
                     component={EpisodeInfo}
                     options={({ route, navigation }) => ({
                         title: route.params.name,
+                        headerStyle: {
+                            backgroundColor: colors.LIGHTGREY,
+                        },
                     })}
                 />
                 <Stack.Screen name="CharacterDetails" component={CharacterDetails} 
                     options={({ route, navigation }) => ({
                         title: route.params.name,
+                        headerStyle: {
+                            backgroundColor: colors.LIGHTGREY,
+                        },
                     })}
                 />
             </Stack.Navigator>

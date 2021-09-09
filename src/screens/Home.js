@@ -62,7 +62,7 @@ const Home = (props) => {
     }
 
     return (
-        <SafeAreaView style={[styles.container,{borderWidth:4, borderColor:'red'}]}>
+        <SafeAreaView style={styles.container}>
             {error ?
                 <View>
                     <Text>Ooops something went wrong</Text>
@@ -74,18 +74,22 @@ const Home = (props) => {
                             <ActivityIndicator size="large" color='grey' />
                         </View>
                         :
-                         <ScrollView style={{ flex:1}} nestedScrollEnabled={true}>
-                            <Image
-                                source={require('../assets/images/rick-and-morty.png')}
-                                style={stylesLocal.imageStyle}
-                            />  
+                         <View style={{ flex:1}} nestedScrollEnabled={true}>
                             <FlatList
                                 data={props.episodes}
                                 keyExtractor={item => item.id}
                                 renderItem={renderList}
                                 style={[stylesLocal.episodeList]}
+                                ListHeaderComponent={() =>{
+                                    return(
+                                        <Image
+                                            source={require('../assets/images/rick-and-morty.png')}
+                                            style={stylesLocal.imageStyle}
+                                        />
+                                    )
+                                }}
                             />
-                        </ScrollView>
+                        </View>
                         }
                 </>
             }
